@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="app.model">
+	<class name="Student" table="student_tbl">
+		<id name="id" column="id">
+			<generator class="increment" />
+		</id>
+
+		<property name="name" type="string">
+			<column name="name" />
+		</property>
+		<property name="email" type="string">
+			<column name="email" />
+		</property>
+
+		<property name="gender" type="integer">
+			<column name="gender" default="1" />
+		</property>
+
+	</class>
+</hibernate-mapping>
