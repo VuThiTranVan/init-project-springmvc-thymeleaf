@@ -20,7 +20,7 @@ public class StudentController {
 	@Autowired
 	private StudentService studentService;
 
-	@RequestMapping(value = "/")
+	@RequestMapping(value = { "/", "/students"})
 	public ModelAndView index() {
 		logger.info("home page");
 		ModelAndView model = new ModelAndView("views/students/index");
@@ -62,6 +62,7 @@ public class StudentController {
 
 		// set default value
 		student.setGender(0);
+		student.setId(-1);
 
 		model.addAttribute("studentForm", student);
 		model.addAttribute("status", "add");
@@ -69,6 +70,27 @@ public class StudentController {
 		return "views/students/student-form";
 
 	}
+	
+	@RequestMapping(value = "/students", method = RequestMethod.POST)
+	public String createOrUpdate(Student studentForm, final RedirectAttributes redirectAttributes) {
+		System.out.println("blabla");
+		Student student;
+		if(studentForm.getId() != -1) { // edit
+			student = studentService.saveOrUpdate(studentForm);
+		} else { // create
+			student = studentService.save(studentForm);
+		}
+		
+		if (student != null) {
+			redirectAttributes.addFlashAttribute("css", "success");
+			redirectAttributes.addFlashAttribute("msg", "Student is create!");
+		} else {
+			redirectAttributes.addFlashAttribute("css", "error");
+			redirectAttributes.addFlashAttribute("msg", "Create student fails!!!!");
+		}
+		return "redirect:/";
+	}
+	
 
 	@RequestMapping(value = "/students/{id}/edit", method = RequestMethod.GET)
 	public String editStudent(@PathVariable("id") int id, Model model) {
