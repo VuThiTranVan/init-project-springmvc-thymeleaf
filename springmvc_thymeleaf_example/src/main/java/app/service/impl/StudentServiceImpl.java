@@ -20,6 +20,18 @@ public class StudentServiceImpl extends BaseServiceImpl implements StudentServic
 			throw e;
 		}
 	}
+	
+	
+	@Override
+	public Student save(Student entity) {
+		try {
+			return getStudentDAO().save(entity);
+		} catch (Exception e) {
+			logger.error(e);
+			throw e;
+		}
+	}
+	
 
 	@Override
 	public boolean deleteStudent(Integer id) {

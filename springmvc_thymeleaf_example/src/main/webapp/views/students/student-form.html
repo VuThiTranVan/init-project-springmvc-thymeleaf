@@ -13,8 +13,7 @@
 		
 		<div class="col-md-6"  style="margin: 0 auto;">
 
-			<form action="#" th:action="@{/students}" class="form-horizontal" method="post" 
-				th:object="${studentForm}">
+			 <form class="form-horizontal" th:object="${studentForm}" th:action="@{/students}" method="post">
 				<input type="hidden" th:field="*{id}" />
 				
 				<div class="form-group">
@@ -48,7 +47,7 @@
 				</div>
 				<div class="form-group">
 					<div class="col-sm-offset-2">
-						<input type="submit" value="Submit" />
+						<input type="submit" value="submit" class="btn btn-primary"/>
 					</div>
 				</div>
 			</form>

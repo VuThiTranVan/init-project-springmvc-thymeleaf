@@ -6,6 +6,8 @@ public interface BaseDAO<PK, T> {
 	void delete(T entity);
 
 	T saveOrUpdate(T entity);
+	
+	T save(T entity);
 
 	T findById(Serializable key);
 }

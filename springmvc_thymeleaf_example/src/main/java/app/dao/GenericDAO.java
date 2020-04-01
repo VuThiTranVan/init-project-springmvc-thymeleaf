@@ -31,6 +31,11 @@ public abstract class GenericDAO<PK extends Serializable, T> extends HibernateDa
 		getSession().saveOrUpdate(entity);
 		return entity;
 	}
+	
+	public T save(T entity) {
+		getSession().save(entity);
+		return entity;
+	}
 
 	private Class<T> persistentClass;
 
