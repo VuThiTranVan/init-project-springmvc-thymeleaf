@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head></head>
+<body>
+<div th:fragment="copy" id="error_explanation" th:if="${#fields.hasErrors('*')}">
+  <div class="alert alert-danger" th:text="#{user.validation.errors(${#lists.size(#fields.errors('*'))})}">
+    The form contains error.
+  </div>
+  <ul>
+    <li th:each="err : ${#fields.errors('*')}" th:text="${err}" th:class="error">Input is incorrect</li>
+  </ul>
+</div>

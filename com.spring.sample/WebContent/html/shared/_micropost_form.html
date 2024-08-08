@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html th:replace="~{templates/layout :: layout(~{::title}, ~{::body}, ~{})}" xmlns:th="http://www.thymeleaf.org">
+<head></head>
+<body>		
+  <form th:method="POST" th:action="@{/microposts}" th:object="${micropost}" th:fragment="copy (micropost)" >
+	<div th:replace="shared/_error_messages :: copy"></div>
+	  
+	<div class="field">
+	  <label th:for="${#ids.next('content')}" th:text="#{micropost.form.content}">Content</label>
+  	  <textarea rows="4" th:field="*{content}" class="form-control" th:classappend="${#fields.hasErrors('content')}? 'fieldError'"></textarea>
+	  <p th:if="${#fields.hasErrors('content')}" th:errors="*{content}" class="error">Incorrect name</p>
+	</div>
+	  
+	<input type="submit" value="Post" th:attr="value=#{micropost.new.submit}" class="btn btn-primary"/>
+  </form>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html th:replace="~{templates/layout :: layout(~{::title}, ~{::body}, ~{})}" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <title th:text="#{session.login.title}">Log in</title>
+</head>
+<body>
+<h1 th:text="#{session.login.title}">Log in</h1>
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <form th:method="POST" th:action="@{/login}" enctype="utf8">
+      <!-- <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" /> -->
+      <div th:if="${param.error}" class="alert alert-error">  
+        <ul>
+          <li th:text="#{session.login.error}" th:class="error">Invalid email and password</li>
+        </ul>         
+      </div>
+      <div th:if="${param.logout}">
+          <div class="alert alert-info">You have been logged out.</div>
+      </div>
+  
+      <label th:for="email" th:text="#{session.login.email}">Email</label>
+      <input type="email" th:name="email" class="form-control" required="required" autofocus="autofocus" />
+  
+      <label th:for="password" th:text="#{session.login.password}">Password</label>
+      <input type="password" th:name="password" class="form-control" />
+  
+  	  <label th:for="remember-me" class="checkbox inline">
+      <input type="checkbox" th:name="remember-me" class="form-control" />
+      <span th:text="#{session.login.remember}">Remember me on this computer</span>
+      </label>
+  
+      <input type="submit" value="Log in" th:attr="value=#{session.login.submit}" class="btn btn-primary"/>		
+    </form>
+    <p>New user? <a th:href="@{/signup}" th:text="#{session.login.signup}">Sign up now!</a></p>
+  </div>
+</div>

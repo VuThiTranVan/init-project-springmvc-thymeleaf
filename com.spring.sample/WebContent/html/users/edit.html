@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html th:replace="~{templates/layout :: layout(~{::title}, ~{::body}, ~{})}" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title th:text="#{user.edit.title}">Edit User</title>
+</head>
+<body>
+<h1 th:text="#{user.edit.title}">Edit User</h1>
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <form th:method="PUT" th:action="@{'/users/'+${user.id}}" th:object="${user}" th:fragment="form (title, action, method)">
+	  <div th:replace="shared/_error_messages :: copy"></div>
+	  
+	  <label th:for="${#ids.next('name')}" th:text="#{user.form.name}">Name</label>
+	  <input type="text" th:field="*{name}" class="form-control" th:classappend="${#fields.hasErrors('name')}? 'fieldError'" />
+	  <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error">Incorrect name</p>
+	  
+	  <label th:for="${#ids.next('email')}" th:text="#{user.form.email}">Email</label>
+	  <input type="email" th:field="*{email}" class="form-control" th:classappend="${#fields.hasErrors('email')} ? 'fieldError'" />
+	  <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error">Incorrect email</p>
+	  
+	  <input type="submit" value="Register" th:attr="value=#{user.edit.submit}" class="btn btn-primary"/>		
+	</form>
+  </div>
+</div>
+</body>
+</html>

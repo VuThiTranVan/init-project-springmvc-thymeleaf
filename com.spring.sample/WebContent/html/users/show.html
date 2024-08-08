@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html th:replace="~{templates/layout :: layout(~{::title}, ~{::body}, ~{})}" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title th:text="#{user.show.title}">User Info</title>
+</head>
+<body>
+<div class="row">
+  <aside class="col-md-4">
+	<section class="user_info">
+		<th:block th:if="${user}">
+		<h1>
+			<img th:attr="src=${#viewSupport.gravatarFor(user.email)}" class="gravatar" />
+			[[${user.name}]]
+		</h1>
+		<form th:method="DELETE" th:action="@{'/users/'+${user.id}}">
+		  <input type="submit" th:attr="value=#{user.delete}" value="Delete" />
+	    </form>
+	    </th:block>
+	</section>
+  </aside>
+  <div class="col-md-8">
+    <h3>Microposts ([[${microposts.totalElements}]])</h3>
+    <ol class="microposts">
+    <th:block th:each="micropost : ${microposts.content}">
+      <li th:replace="~{microposts/_micropost :: copy(${micropost})}"></li>
+    </th:block>
+    </ol>
+    <th:block th:if="${microposts.totalPages > 1}">
+    <div th:if="${microposts.totalPages > 1}" th:replace="~{shared/_pagination :: copy(${microposts}, '/users/'+${user.id})}"></div>
+    </th:block>
+  </div>
+</div>
+</body>
+</html>

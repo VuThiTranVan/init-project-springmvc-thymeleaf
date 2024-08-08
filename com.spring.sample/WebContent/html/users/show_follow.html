@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html th:replace="~{templates/layout :: layout(~{::title}, ~{::body}, ~{})}" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title th:text="#{user.show.title}">User Info</title>
+</head>
+<body>
+<div class="row">
+  <aside class="col-md-4">
+	<section class="user_info">
+	<th:block th:if="${user}">
+	  <img th:attr="src=${#viewSupport.gravatarFor(user.email)}" class="gravatar" />
+	  <h1>[[${user.name}]]</h1>
+	  <span><a th:href="@{'/users/'+${user.id}}" th:text="#{shared.user.show}">view my profile</a></span>
+      <span th:text="${#viewSupport.pluralize('micropost', 1)}">1 micropost</span>
+      <form th:method="DELETE" th:action="@{'/users/'+${user.id}}">
+	    <input type="submit" th:attr="value=#{user.delete}" value="Delete" />
+	  </form>
+	</th:block>
+	</section>
+  </aside>
+  <div class="col-md-8">
+    <h3 th:text="${title}">Following/Followers</h3>
+    <ul class="users follow">
+    <th:block th:each="user : ${users.content}">
+      <li th:replace="~{users/_user :: copy(${user})}"></li>
+    </th:block>
+    </ul>
+    <th:block th:if="${users.totalPages > 1}">
+    <div th:if="${users.totalPages > 1}" th:replace="~{shared/_pagination :: copy(${users}, '/users')}"></div>
+    </th:block>
+  </div>
+</div>
+</body>
+</html>

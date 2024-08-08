@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8'?>  
+<!DOCTYPE hibernate-mapping PUBLIC  
+ "-//Hibernate/Hibernate Mapping DTD 5.3//EN"  
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+ <!-- "classpath://org/hibernate/hibernate-configuration-3.0.dtd" --> 
+  
+<hibernate-mapping>  
+	<class name="com.spring.sample.entity.User" table="user">  
+    	<id name="id" column="id" type="int"> 
+     		<generator class="native"></generator>  
+    	</id>  
+            
+    	<property name="name" column="name" type="string"></property>
+    	<property name="email" column="email" type="string" unique="true"></property>
+    	<property name="password" column="password" type="string" length="128"></property>
+    	<property name="series" column="series" type="string"></property>
+    	<property name="token" column="token" type="string"></property>
+    	<property name="lastUsed" column="last_used" type="java.util.Date"></property>
+    	<property name="role" column="role" type="int"></property>
+    	<property name="updatedAt" column="updated_at" type="java.util.Date"></property>
+    	<property name="createdAt" column="created_at" type="java.util.Date"></property>
+    	
+    	<list name = "microposts" cascade="all" lazy="true" inverse="true">
+	    	<key column = "user_id"/>
+	    	<list-index column = "id" base="1"/>
+	    	<one-to-many class="com.spring.sample.entity.Micropost"/>
+	    </list>
+            
+  </class>  
+            
+</hibernate-mapping>  

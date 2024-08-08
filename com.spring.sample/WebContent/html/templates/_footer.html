@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html th:fragment="layout (title, content)" xmlns:th="http://www.thymeleaf.org">
+<head></head>
+<body>
+  <footer th:fragment="copy" class="footer">
+    <small>
+      The <a href="https://docs.spring.io/spring/docs/current/spring-framework-reference/web.html" target="_blank">Spring MVC</a> documentation<br>
+      [[#{footer.copyright}]]
+    </small>
+    <nav>
+      <ul>
+        <li><a th:href="@{/about}" th:text="#{footer.about}">About</a></li>
+        <li><a th:href="@{/contact}" th:text="#{footer.contact}">Contact</a></li>
+      </ul>
+    </nav>
+  </footer> 
+</body>
+</html>

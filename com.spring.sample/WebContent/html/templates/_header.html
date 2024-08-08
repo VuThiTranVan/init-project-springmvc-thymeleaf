@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+</head>
+<body>
+  <header th:fragment="copy" class="navbar navbar-fixed-top navbar-inverse">
+    
+	<div class="container">
+		<a id="logo" th:href="@{/home}" th:text="#{application.logo}">Sample App</a>
+		<nav>
+			<ul class="nav navbar-nav navbar-right">
+				<li><a th:href="@{/home}" th:text="#{header.home}">Home</a></li>
+				<li><a th:href="@{/help}" th:text="#{header.help}">Help</a></li>
+				<th:block sec:authorize="!isAuthenticated()">
+				<li><a th:href="@{/login}" th:text="#{header.login}">Log in</a></li>
+				</th:block>
+				<th:block sec:authorize="isAuthenticated()">
+				<li><a th:href="@{/users}">Users</a></li>
+				<li class="dropdown" th:with="user=${#request.userPrincipal.principal.user}">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+					    <span th:text="${#request.userPrincipal.principal.user.name}">Account</span>
+					    <b class="caret"></b>
+					</a>
+					<ul class="dropdown-menu">
+						<li><a th:href="@{'/users/'+${user.id}}">Profile</a></li>
+						<li><a th:href="@{'/users/'+${user.id}+'/edit'}">Settings</a></li>
+						<li class="divider"></li>
+						<li><a th:href="@{/logout}">Sign Out</a></li>
+					</ul>
+				</li>
+				</th:block>
+			</ul>
+		</nav>
+	</div>
+  </header>
+</body>
+</html>

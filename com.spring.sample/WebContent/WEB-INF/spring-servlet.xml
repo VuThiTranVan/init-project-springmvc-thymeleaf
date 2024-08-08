@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        https://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc
+        https://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+	<!-- DispatcherServlet Context: defines this servlet's request-processing 
+		infrastructure -->
+
+	<!-- Enables the Spring MVC @Controller programming model -->
+	<mvc:annotation-driven validator="validator">
+		<mvc:message-converters>
+			<bean
+				class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+				<property name="objectMapper" ref="objectMapper" />
+			</bean>
+			<bean
+				class="org.springframework.http.converter.xml.MappingJackson2XmlHttpMessageConverter">
+				<property name="objectMapper" ref="xmlMapper" />
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+
+	<!-- Localization of hibernate messages during validation! -->
+	<bean name="validator"
+		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+		<property name="validationMessageSource">
+			<ref bean="messageSource" />
+		</property>
+	</bean>
+
+	<bean id="objectMapper"
+		class="org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean"
+		p:indentOutput="true" p:simpleDateFormat="yyyy-MM-dd"
+		p:modulesToInstall="com.fasterxml.jackson.module.paramnames.ParameterNamesModule" />
+
+	<bean id="xmlMapper" parent="objectMapper"
+		p:createXmlMapper="true" />
+
+	<context:component-scan
+		base-package="com.spring.sample.configuration" />
+	<context:component-scan
+		base-package="com.spring.sample.handler" />
+	<context:component-scan
+		base-package="com.spring.sample.validator" />
+	<context:component-scan
+		base-package="com.spring.sample.controller" />
+
+	<bean id="contentNegotiationManager"
+		class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+		<property name="mediaTypes">
+			<value>
+				json=application/json
+				xml=application/xml
+			</value>
+		</property>
+	</bean>
+
+	<!-- <security:http auto-config="true" disable-url-rewriting="true" use-expressions="true"> 
+		<security:csrf /> </security:http> -->
+
+	<!-- resources -->
+	<mvc:resources mapping="/resources/**"
+		location="/resources/" />
+	<mvc:resources mapping="/webjars/**" location="/webjars/" />
+	<bean id="messageSource"
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basename" value="classpath:messages" />
+		<property name="defaultEncoding" value="UTF-8" />
+	</bean>
+
+	<bean id="localeResolver"
+		class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+		<property name="defaultLocale" value="en" />
+		<property name="cookieName" value="myAppLocaleCookie" />
+		<property name="cookieMaxAge" value="3600" />
+	</bean>
+
+	<bean id="flash" class="com.spring.sample.interceptor.Flash" />
+
+	<bean id="passwordEncoder"
+		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
+		<qualifier value="passwordEncoder" />
+	</bean>
+
+	<mvc:interceptors>
+		<bean
+			class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+			<property name="paramName" value="locale" />
+		</bean>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<bean
+				class="org.springframework.web.servlet.theme.ThemeChangeInterceptor" />
+		</mvc:interceptor>
+
+		<!-- Configuring interceptors based on URI -->
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<bean
+				class="com.spring.sample.interceptor.FlashMessageInterceptor">
+				<!-- <property name="flash" ref="flash"/> -->
+			</bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
+
+	<bean name="handlerMapping"
+		class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" />
+
+	<!-- SpringResourceTemplateResolver automatically integrates with Spring's 
+		own -->
+	<!-- resource resolution infrastructure, which is highly recommended. -->
+	<bean id="templateResolver"
+		class="org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver">
+		<property name="prefix" value="/html/" />
+		<property name="suffix" value=".html" />
+		<!-- HTML is the default value, added here for the sake of clarity. -->
+		<property name="templateMode" value="HTML" />
+		<!-- Template cache is true by default. Set to false if you want -->
+		<!-- templates to be automatically updated when modified. -->
+		<property name="cacheable" value="false" />
+	</bean>
+
+	<!-- SpringTemplateEngine automatically applies SpringStandardDialect and -->
+	<!-- enables Spring's own MessageSource message resolution mechanisms. -->
+	<bean id="templateEngine"
+		class="org.thymeleaf.spring5.SpringTemplateEngine">
+		<property name="templateResolver" ref="templateResolver" />
+		<!-- Enabling the SpringEL compiler with Spring 4.2.4 or newer can speed 
+			up -->
+		<!-- execution in most scenarios, but might be incompatible with specific -->
+		<!-- cases when expressions in one template are reused across different 
+			data -->
+		<!-- ypes, so this flag is "false" by default for safer backwards -->
+		<!-- compatibility. -->
+		<property name="enableSpringELCompiler" value="true" />
+		<property name="additionalDialects">
+			<set>
+				<!-- Note the package would change to 'springsecurity[3|4]' if you are 
+					using that version -->
+				<bean
+					class="org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect" />
+				<bean class="com.spring.sample.util.ViewSupportDialect" />
+			</set>
+		</property>
+	</bean>
+
+	<bean id="viewResolver"
+		class="org.thymeleaf.spring5.view.ThymeleafViewResolver">
+		<property name="templateEngine" ref="templateEngine" />
+		<!-- NOTE 'order' and 'viewNames' are optional -->
+		<property name="order" value="1" />
+		<!-- <property name="viewNames" value="*.html,*.xhtml" /> -->
+		<!-- <property name="staticVariables"> <map> <entry key="prettyTime" value="com.spring.sample.util.CommonUtil"/> 
+			</map> </property> -->
+	</bean>
+
+</beans>

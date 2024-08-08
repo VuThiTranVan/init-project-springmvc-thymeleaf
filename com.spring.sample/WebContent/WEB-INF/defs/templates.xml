@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd"> 
+<tiles-definitions>  
+    <definition name="base.definition" template="/jsp/layout/layout.jsp">
+        <put-attribute name="header" value="/jsp/layout/header.jsp" />  
+        <put-attribute name="body" value="" />  
+        <put-attribute name="footer" value="/jsp/layout/footer.jsp" />
+        <put-list-attribute name="default-css" inherit="true">		
+			<add-attribute value="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
+			<add-attribute value="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" />
+			<add-attribute value="/resources/css/custom.css" />
+		</put-list-attribute>
+		<put-list-attribute name="default-js" inherit="true">		
+			<add-attribute value="/resources/js/custom.js" />
+			<add-attribute value="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" />
+			<add-attribute value="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" />
+		</put-list-attribute>
+		<put-list-attribute name="css" inherit="true">
+		</put-list-attribute>
+		<put-list-attribute name="js" inherit="true">	
+		</put-list-attribute>
+    </definition>
+    
+    <definition name="error.page" extends="base.definition">  
+        <put-attribute name="body" value="/jsp/error.jsp" />  
+    </definition>
+    
+    <definition name="home.page" extends="base.definition">  
+        <put-attribute name="body" value="/jsp/home.jsp" />  
+    </definition>
+  
+</tiles-definitions>  

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<?xml version="1.0" encoding="UTF-8"?>
+<html th:fragment="layout (title, content, links)" 
+  xmlns:th="http://www.thymeleaf.org" 
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <title th:replace="${title}">[[#{meta.title}]]</title>
+  <meta name="description" th:attr="content=#{meta.description}" />
+  <meta name="keywords" th:attr="content=#{meta.keywords}" />
+  <!-- <sec:csrfMetaTags ></sec:csrfMetaTags> -->
+	<!-- default header name is X-CSRF-TOKEN -->
+  <meta name="_csrf_header" th:attr="content=${_csrf.headerName}"/>
+  <meta name="_csrf_parameter" th:attr="content=${_csrf.parameterName}"/>
+  <meta name="_csrf" th:attr="content=${_csrf.token}"/>
+	
+  <!-- Common styles and scripts -->
+  <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.4.1/css/bootstrap.min.css}">
+  <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.4.1/css/bootstrap-theme.min.css}">
+  <link rel="stylesheet" th:href="@{/webjars/font-awesome/css/font-awesome.min.css}"></link>
+  <link rel="stylesheet" type="text/css" media="all" th:href="@{/resources/css/custom.css}">
+  <script th:src="@{/webjars/jquery/3.5.1/jquery.min.js}"></script>
+  <script th:src="@{/webjars/bootstrap/3.4.1/js/bootstrap.min.js}"></script>
+  <script type="text/javascript" th:src="@{/resources/js/custom.js}"></script>
+  <link rel="shortcut icon" th:href="@{/resources/img/favicon.ico}">
+
+  <th:block th:replace="${links}" />
+</head>
+<body>
+  <div th:unless="${flash.isEmptyMessage()}" th:each="key : ${flash.getMessage().keySet()}" th:class="'alert alert-'+${flash.getMessage().get(key)}+' alert-dismissible'" role="alert">
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+	  <span aria-hidden="true">&times;</span>
+    </button>
+    [[#{${key}}]]
+  </div>
+  <header th:replace="templates/_header :: copy"></header>     
+  <div class="container">
+    <div th:replace="${content}">
+        <p>Layout content</p>
+    </div>
+    <footer th:replace="templates/_footer :: copy"></footer> 
+  </div>  
+</body>
+</html>

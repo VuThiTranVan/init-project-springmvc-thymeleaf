@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head></head>
+<body>
+  <div th:fragment="copy (page, url)" th:if="${page.totalPages > 0}" class="pagination">
+    <ul class="pagination">
+      <li class="prev previous_page " th:attrappend="class=${page.isFirst()} ? disabled"><a href="#" th:href="${page.hasPrevious()} ? @{${url}+'?page='+${page.number}} : 'javascript: void(0);'" th:utext=#{paging.previous}>&larr; Previous</a></li>
+      <li th:each="i: ${#numbers.sequence(1, page.totalPages)}" th:class="${i==page.number + 1} ? active">
+        <a th:href="@{${url}+'?page='+${i}}" th:text=${i}></a>
+      </li>
+      <li class="next next_page " th:attrappend="class=${page.isLast()} ? disabled"><a href="#" th:href="${page.hasNext()} ? @{${url}+'?page='+${page.number+2}} : 'javascript: void(0);'" th:utext=#{paging.next}>Next &rarr;</a></li>
+    </ul>
+  </div>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE tiles-definitions PUBLIC  
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"  
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">  
+<tiles-definitions>   
+    <definition name="user.index" extends="base.definition">  
+        <put-attribute name="title" value="All User" />  
+        <put-attribute name="body" value="/jsp/users/index.jsp" /> 
+        <put-list-attribute name="css">		
+		</put-list-attribute>
+		<put-list-attribute name="js">		
+		</put-list-attribute>
+    </definition>
+    <definition name="user.add" extends="base.definition">  
+        <put-attribute name="title" value="Register" />  
+        <put-attribute name="body" value="/jsp/users/add.jsp" />  
+    </definition>
+    <definition name="user.edit" extends="base.definition">  
+        <put-attribute name="title" value="Edit User" />  
+        <put-attribute name="body" value="/jsp/users/edit.jsp" />  
+    </definition>
+    <definition name="user.show" extends="base.definition">  
+        <put-attribute name="title" value="Show User" />  
+        <put-attribute name="body" value="/jsp/users/show.jsp" />  
+    </definition>  
+  
+</tiles-definitions>  

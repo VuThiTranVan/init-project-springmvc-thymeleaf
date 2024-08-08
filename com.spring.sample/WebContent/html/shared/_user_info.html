@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head></head>
+<body>
+<th:block th:with="user=${#request.userPrincipal.principal.user}" th:fragment="copy">
+<a th:href="@{'/users/'+${user.id}}"><img th:attr="src=${#viewSupport.gravatarFor(user.email)}" class="gravatar" /></a>
+<h1 th:text="${user.name}">User Name</h1>
+<span><a th:href="@{'/users/'+${user.id}}" th:text="#{shared.user.show}">view my profile</a></span>
+<span th:text="${#viewSupport.pluralize('micropost', user.totalMicropost)}">1 micropost</span>
+</th:block>
+</body>
+</html>

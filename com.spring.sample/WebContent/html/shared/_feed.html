@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head></head>
+<body>
+  <th:block th:fragment="copy (microposts)">
+  <ol class="microposts">
+    <th:block th:each="micropost : ${microposts.content}">
+    <li th:replace="~{microposts/_micropost :: copy(${micropost})}"></li>
+    </th:block>
+  </ol>
+  <th:block th:if="${microposts.totalPages > 1}">
+  <div th:if="${microposts.totalPages > 1}" th:replace="~{shared/_pagination :: copy(${microposts}, '/home')}"></div>
+  </th:block>
+  </th:block>
+</body>
+</html>

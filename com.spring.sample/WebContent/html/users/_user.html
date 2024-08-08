@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head></head>
+<body>
+  <ul class="users">
+    <li th:each="user : ${users.content}" th:id="'user-'+${user.id}" th:fragment="copy (user)" 
+      sec:authorize="isAuthenticated()" th:with="current_user=${#authentication.getPrincipal().user}">
+      <img th:attr="src=${#viewSupport.gravatarFor(user.email)}" class="gravatar" />
+      <a th:href="@{'/users/'+${user.id}}" th:text="${user.name}"></a>
+      <th:block sec:authorize="hasAuthority('ADMIN')" th:if="${current_user.id != user.id}">
+      | <a class="delete-user" th:href="@{'/users/'+${user.id}}"
+        th:text="#{user.delete}" th:data-method="delete" th:data-id="${user.id}">Delete</a>
+      </th:block>
+    </li>
+  </ul>
+</body>
+</html>

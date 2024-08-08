@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html th:replace="~{templates/layout :: layout(~{::title}, ~{::body}, ~{})}" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title th:text="#{user.new.title}">Sign up</title>
+</head>
+<body>		
+<h1 th:text="#{user.new.title}">Sign up</h1>
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <form th:method="POST" th:action="@{/users}" th:object="${user}">
+	  <div th:replace="shared/_error_messages :: copy"></div>
+	  
+	  <label th:for="${#ids.next('name')}" th:text="#{user.form.name}">Name</label>
+	  <input type="text" th:field="*{name}" class="form-control" th:classappend="${#fields.hasErrors('name')}? 'fieldError'" />
+	  <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error">Incorrect name</p>
+	  
+	  <label th:for="${#ids.next('email')}" th:text="#{user.form.email}">Email</label>
+	  <input type="email" th:field="*{email}" class="form-control" th:classappend="${#fields.hasErrors('email')} ? 'fieldError'" />
+	  <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error">Incorrect email</p>
+	  
+	  <label th:for="${#ids.next('password')}" th:text="#{user.form.password}">Password</label>
+	  <input type="password" th:field="*{password}" class="form-control" th:classappend="${#fields.hasErrors('password')}? 'fieldError'" />
+	  <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error">Incorrect password</p>
+	  
+	  <label th:for="${#ids.next('confirmation')}" th:text="#{user.form.confirmation}">Confirmation</label>
+	  <input type="password" th:field="*{confirmation}" class="form-control" th:classappend="${#fields.hasErrors('confirmation')}? 'fieldError'"/>
+	  <p th:if="${#fields.hasErrors('confirmation')}" th:errors="*{confirmation}" class="error">Incorrect confirmation</p>
+		
+	  <input type="submit" value="Register" th:attr="value=#{user.new.submit}" class="btn btn-primary"/>		
+	</form>
+  </div>
+</div>
+</body>
+</html>
